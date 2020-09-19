@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% load static %} {% block content %}
+<h1>{{class.name}}</h1>
+{% for i in assignments %} {{i.message}}<br />{%endfor%}
+<!-- {% for i in classes %} {{i.name}}<br />{%endfor%}  -->
+{% endblock %}

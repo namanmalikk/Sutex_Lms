@@ -1,3 +1,6 @@
 {% extends 'base.html' %} {% load static %}{% block content %}
 <h1>Teacher Dashboard</h1>
+<a href="{% url 'createClass' %}">Create Class</a><br />
+{% for i in classes %}
+<a href="{% url 'teacherClassView' i.class_id %}">{{i.name}}</a><br />{%endfor%}
 {% endblock %}

@@ -1,3 +1,7 @@
 {% extends 'base.html' %}{% load static %} {% block content %}
 <h1>Student Dashboard</h1>
-{% endblock %}
+<a href="{% url 'joinClass' %}">Join Class</a><br />
+{% for i in classes %}
+<a href="{% url 'studentClassView' i.class_id %}">{{i.name}}</a>
+
+<br />{%endfor%} {% endblock %}

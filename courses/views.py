@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CreateClassForm, CreateAssignmentForm
 from .models import *
 
 
@@ -55,10 +55,65 @@ def home(request):
 
 
 def teacherDashboard(request):
-    context = {}
+    teacher = request.user.teacher
+    classes = teacher.class_set.all()
+    context = {'classes': classes}
     return render(request, 'teacherDashboard.html', context)
 
 
 def studentDashboard(request):
-    context = {}
+    student = request.user.student
+    classes = Class.objects.filter(students=student)
+    context = {'classes': classes}
     return render(request, 'studentDashboard.html', context)
+
+
+def createClass(request):
+    form = CreateClassForm()
+    if request.method == 'POST':
+        form = CreateClassForm(request.POST)
+        if form.is_valid():
+            new_class = form.save()
+            new_class.teacher = request.user.teacher
+            new_class.save()
+            return redirect('teacherDashboard')
+    context = {'form': form}
+    return render(request, 'createClass.html', context)
+
+
+def joinClass(request):
+    if request.method == 'POST':
+        id = request.POST.get('class_id')
+        try:
+            myClass = Class.objects.get(class_id=id)
+            student = request.user.student
+            myClass.students.add(student)
+            return redirect('studentDashboard')
+        except Class.DoesNotExist:
+            messages.info(request, "Invalid id")
+    context = {}
+    return render(request, 'joinClass.html', context)
+
+
+def teacherClassView(request, pk):
+    # teacher = request.user.teacher
+    class_object = Class.objects.get(class_id=pk)
+    form = CreateAssignmentForm()
+    if request.method == 'POST':
+        form = CreateAssignmentForm(request.POST)
+        if form.is_valid():
+            assignment = form.save()
+            assignment.class_object = class_object
+            assignment.save()
+            return redirect('teacherDashboard')
+    assignments = class_object.assignments_set.all()
+    context = {'assignments': assignments, 'class': class_object, 'form': form}
+    return render(request, 'teacherClassView.html', context)
+
+
+def studentClassView(request, pk):
+    # student = request.user.student
+    class_object = Class.objects.get(class_id=pk)
+    assignments = class_object.assignments_set.all()
+    context = {'assignments': assignments, 'class': class_object}
+    return render(request, 'studentClassView.html', context)
