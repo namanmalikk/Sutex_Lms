@@ -4,24 +4,30 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from .forms import CreateUserForm
+from .models import *
 
 
-def signupStudent(request):
+def signupUser(request):
     form = CreateUserForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            group = Group.objects.get(name='student')
+            groupName = str(form.cleaned_data.get('groups')[0])
+            group = Group.objects.get(name=groupName)
             user.groups.add(group)
+            if groupName == 'student':
+                Student.objects.create(user=user)
+            else:
+                Teacher.objects.create(user=user)
             messages.success(request, 'user succesfully created')
-            return redirect('home')
+            return redirect('loginUser')
 
     context = {'form': form}
     return render(request, 'signup.html', context)
 
 
-def loginStudent(request):
+def loginUser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -29,33 +35,10 @@ def loginStudent(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'logged in')
-    context = {}
-    return render(request, 'login.html', context)
-
-
-def signupTeacher(request):
-    form = CreateUserForm()
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            group = Group.objects.get(name='teacher')
-            user.groups.add(group)
-            messages.success(request, 'user succesfully created')
-            return redirect('home')
-
-    context = {'form': form}
-    return render(request, 'signup.html', context)
-
-
-def loginTeacher(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            messages.success(request, 'logged in')
+            groupName = request.user.groups.all()[0].name
+            return redirect(f'{groupName}Dashboard')
+        else:
+            messages.info(request, "Invalid credentials")
     context = {}
     return render(request, 'login.html', context)
 
@@ -63,7 +46,7 @@ def loginTeacher(request):
 def logoutUser(request):
     logout(request)
     messages.success(request, 'logged out')
-    return redirect('home')
+    return redirect('loginUser')
 
 
 def home(request):
