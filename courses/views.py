@@ -125,7 +125,10 @@ def detailAssignment(request, pk, pk2):
     class_object = Class.objects.get(class_id=pk)
     assignment = class_object.assignments_set.get(id=pk2)
     form = SubmitSolutionForm()
-    solution = Solutions.objects.filter(assignment=assignment, student=student)
+    solution = Solutions.objects.filter(
+        assignment=assignment, student=student)
+    if solution:
+        solution = solution[0]
     if request.method == 'POST':
         form = SubmitSolutionForm(request.POST, request.FILES)
         if form.is_valid():
@@ -134,7 +137,7 @@ def detailAssignment(request, pk, pk2):
             solution.student = student
             solution.save()
             return redirect('studentDashboard')
-    print(solution.answer.url)
+    print(solution)
     context = {'solution': solution, 'form': form,
                'assignment': assignment, 'class': class_object}
     return render(request, 'detailAssignment.html', context)

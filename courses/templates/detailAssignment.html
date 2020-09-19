@@ -1,9 +1,14 @@
+{% extends 'base.html' %} {% load static %}{% block content %}
 {{assignment.message}}<br />
 <a href="{{assignment.question.url}}">Question</a><br />
 
+{% if solution.answer %}
 <a href="{{solution.answer.url}}">Uploaded Answer</a><br />
+
+{% else %}
 
 <form method="POST" action="" enctype="multipart/form-data">
   {% csrf_token %} {{form.as_p}}
   <input type="submit" name="Submit" />
 </form>
+{% endif %} {% endblock %}

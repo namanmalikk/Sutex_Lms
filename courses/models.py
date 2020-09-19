@@ -48,3 +48,6 @@ class Solutions(models.Model):
     student = models.ForeignKey(
         Student, null=True, blank=True, on_delete=models.CASCADE)
     answer = models.FileField(upload_to='assignment/answer/', blank=True)
+
+    def __str__(self):
+        return self.student.user.username
