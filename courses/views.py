@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
-from .forms import CreateUserForm, CreateClassForm, CreateAssignmentForm
+from .forms import CreateUserForm, CreateClassForm, CreateAssignmentForm, SubmitSolutionForm
 from .models import *
 
 
@@ -100,7 +100,7 @@ def teacherClassView(request, pk):
     class_object = Class.objects.get(class_id=pk)
     form = CreateAssignmentForm()
     if request.method == 'POST':
-        form = CreateAssignmentForm(request.POST)
+        form = CreateAssignmentForm(request.POST, request.FILES)
         if form.is_valid():
             assignment = form.save()
             assignment.class_object = class_object
@@ -117,3 +117,24 @@ def studentClassView(request, pk):
     assignments = class_object.assignments_set.all()
     context = {'assignments': assignments, 'class': class_object}
     return render(request, 'studentClassView.html', context)
+
+
+def detailAssignment(request, pk, pk2):
+    print(pk, pk2)
+    student = request.user.student
+    class_object = Class.objects.get(class_id=pk)
+    assignment = class_object.assignments_set.get(id=pk2)
+    form = SubmitSolutionForm()
+    solution = Solutions.objects.filter(assignment=assignment, student=student)
+    if request.method == 'POST':
+        form = SubmitSolutionForm(request.POST, request.FILES)
+        if form.is_valid():
+            solution = form.save()
+            solution.assignment = assignment
+            solution.student = student
+            solution.save()
+            return redirect('studentDashboard')
+    print(solution.answer.url)
+    context = {'solution': solution, 'form': form,
+               'assignment': assignment, 'class': class_object}
+    return render(request, 'detailAssignment.html', context)

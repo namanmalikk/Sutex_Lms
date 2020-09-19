@@ -34,8 +34,17 @@ class Class(models.Model):
 
 class Assignments(models.Model):
     message = models.TextField(null=True, blank=True)
+    question = models.FileField(upload_to='assignment/questions/', blank=True)
     class_object = models.ForeignKey(
         Class, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.class_object.name
+
+
+class Solutions(models.Model):
+    assignment = models.ForeignKey(
+        Assignments, null=True, blank=True, on_delete=models.CASCADE)
+    student = models.ForeignKey(
+        Student, null=True, blank=True, on_delete=models.CASCADE)
+    answer = models.FileField(upload_to='assignment/answer/', blank=True)

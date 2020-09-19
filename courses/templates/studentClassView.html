@@ -1,5 +1,9 @@
 {% extends 'base.html' %}{% load static %} {% block content %}
 <h1>{{class.name}}</h1>
-{% for i in assignments %} {{i.message}}<br />{%endfor%}
-<!-- {% for i in classes %} {{i.name}}<br />{%endfor%}  -->
-{% endblock %}
+
+{% for i in assignments %}
+<br />{{i.message}}<br />
+{% if i.question %}
+<a href="{{i.question.url}}">Question</a><br />
+<a href="{% url 'detailAssignment' class.class_id i.id %}">Detail</a><br />
+{% endif %} {%endfor%} {% endblock %}

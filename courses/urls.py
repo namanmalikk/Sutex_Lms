@@ -13,6 +13,8 @@ urlpatterns = [
          views.teacherClassView, name='teacherClassView'),
     path('student/class/<str:pk>/',
          views.studentClassView, name='studentClassView'),
+    path('student/class/<str:pk>/<str:pk2>',
+         views.detailAssignment, name='detailAssignment'),
 
     path('signup/', views.signupUser, name='signupUser'),
     path('login/', views.loginUser, name='loginUser'),

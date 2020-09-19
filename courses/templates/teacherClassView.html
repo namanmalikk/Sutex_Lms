@@ -1,7 +1,13 @@
 {% extends 'base.html' %}{% load static %} {% block content %}
 <h1>{{class.name}}</h1>
-<form method="POST" action="">
+
+<form method="POST" action="" enctype="multipart/form-data">
   {% csrf_token %} {{form.as_p}}
   <input type="submit" name="Submit" />
 </form>
-{% for i in assignments %} {{i.message}}<br />{%endfor%} {% endblock %}
+
+{% for i in assignments %}
+<br />{{i.message}}<br />
+{% if i.question %}
+<a href="{{i.question.url}}">Question</a><br />
+{% endif %} {%endfor%} {% endblock %}

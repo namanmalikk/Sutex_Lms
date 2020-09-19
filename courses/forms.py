@@ -21,4 +21,10 @@ class CreateClassForm(ModelForm):
 class CreateAssignmentForm(ModelForm):
     class Meta:
         model = Assignments
-        fields = ['message']
+        fields = ['message', 'question']
+
+
+class SubmitSolutionForm(ModelForm):
+    class Meta:
+        model = Solutions
+        fields = ['answer']
