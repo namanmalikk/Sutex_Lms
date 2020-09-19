@@ -27,11 +27,5 @@
   {% if user.is_authenticated %}
   <span style="color: white">Hello {{user.username}}__</span>
   <span style="color: white"><a href="{% url 'logoutUser' %}">Logout</a></span>
-  {% else %}
-  <span style="color: white"
-    ><a href="{% url 'signupUser' %}">Sign Up__</a></span
-  >
-  <span style="color: white"><a href="{% url 'loginUser' %}">Login </a></span>
-
   {% endif %}
 </nav>
