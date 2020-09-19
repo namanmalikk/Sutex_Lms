@@ -2,7 +2,7 @@
   
 A learning management system like google classroom  
   
-#To run this:  
+**To run this:**  
   
 1.Install python  
 python version 3.7.6  
