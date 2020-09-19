@@ -1,14 +1,107 @@
-{% extends 'base.html' %} {% load static %}{% block content %}
-{{assignment.message}}<br />
-<a href="{{assignment.question.url}}">Question</a><br />
+{% extends 'base.html' %} {% load static %}{% block content %} 
 
-{% if solution.answer %}
-<a href="{{solution.answer.url}}">Uploaded Answer</a><br />
 
-{% else %}
 
-<form method="POST" action="" enctype="multipart/form-data">
-  {% csrf_token %} {{form.as_p}}
-  <input type="submit" name="Submit" />
-</form>
-{% endif %} {% endblock %}
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+          <a href="{% url 'home' %}" class="img logo rounded-circle mb-5"
+            ><img src="{% static "images/Logo.jpg" %}" style="height: 125px;width:
+            125px;" alt="My image"></a
+          >
+          <ul class="list-unstyled components mb-5">
+            <li>
+              <a href="{% url 'joinClass' %}">Join Class</a>
+            </li>
+            <li>
+                <a href="{% url 'logoutUser' %}">Logout</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+                </i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'joinClass' %}">Join Class</a>
+                          </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="row justify-content-center">
+
+        </div>
+        <section class="blog_area single-post-area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 posts-list">
+                        <div class="single-post">
+
+                            <div class="blog_details">
+                                <h2 style="color: #2d2d2d;">{{assignment.message}}
+                                </h2>
+                                <a class="button rounded-0 primary-bg text-yellow w-10 boxed-btn" href="{{assignment.question.url}}"><p>View Question</p></a>
+                                <div class="quote-wrapper">
+                                    <div class="quotes">
+                                        Submit Assignment before 23rd Sept
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        
+
+
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget search_widget">
+                                
+                                {% if solution.answer %}
+                                <a class="button rounded-0 primary-bg text-yellow w-100 btn_1 boxed-btn" href="{{solution.answer.url}}"><p>Uploaded Answer</p></a><br /> 
+                                {% else %}
+
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    {% csrf_token %} {{form.as_p}}
+                                    <button class="button rounded-0 primary-bg text-yellow w-100 btn_1 boxed-btn" type="submit">Turn in</button>
+                                </form>
+                                {% endif %}
+                            </aside>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}

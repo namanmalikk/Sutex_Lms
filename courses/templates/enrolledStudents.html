@@ -1,0 +1,92 @@
+{% extends 'base.html' %}{% load static %} {% block content %}
+
+
+
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+        <div class="p-4 pt-5">
+            <a href="{% url 'home' %}" class="img logo rounded-circle mb-5"><img src="{% static "images/Logo.jpg" %}" style="height: 125px;width:
+         125px;" alt="My image"></a>
+            <ul class="list-unstyled components mb-5">
+                <li>
+                    <a href="{% url 'createClass' %}">Create Class</a>
+                </li>
+                <li>
+                    <a href="{% url 'enrolledStudents' class.class_id %}">View Enrolled Students</a>
+                </li>
+                <li>
+                    <a href="{% url 'logoutUser' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5">
+
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn">
+       <i class="fa fa-bars"></i>
+       <span class="sr-only">Toggle Menu</span>
+     </button>
+                </i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'createClass' %}">Create Class</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-8">
+                <div class="section-tittle text-center mb-55">
+                    <h2>{{class.name}}</h2>
+                </div>
+            </div>
+        </div>
+
+            <div class="wrap-table100">
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr class="thead-dark">
+                                <th class="column1">First Name</th>
+                                <th class="column2">Last Name</th>
+                                <th class="column3">Username</th>
+                                <th class="column4">Email ID</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in students %}
+                        <tr>
+                            <td class="column1">{{i.user.first_name}}</td>
+                            <td class="column2">{{i.user.last_name}}</td>
+                            <td class="column3">{{i.user.username}}</td>
+                            <td class="column4">{{i.user.email}}</td>
+                        </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

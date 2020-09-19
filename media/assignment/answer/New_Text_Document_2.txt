@@ -1,0 +1,69 @@
+echo -n "Enter the number of elements :"
+read n 
+echo "Enter the colors :"
+i=0;
+while [[ $i -lt $n ]]
+do
+    read colors[$i] 
+    i=`expr $i + 1` 
+done
+echo "Entered colors are :"
+for color in ${colors[@]}
+do
+  echo $color;
+done
+
+# colors=(red yellow green orange blue white black grey)
+# for color in ${colors[@]}
+# do
+#   echo $color;
+# done
+
+
+
+
+
+
+numbers=(5,7,6,4,2,1)
+flag=0;
+for number in ${numbers[@]}
+do
+  if(flag==0)
+done
+
+# echo -e "\nPrinting all elements : "
+# echo ${colors[@]}
+# echo ${colors[*]}	
+# for color in ${colors[@]}
+# do
+#   echo -n $color "";
+# done
+
+
+# echo -e "\n\nPrinting first elements : "
+# echo ${colors[0]}
+# echo ${colors} 
+
+
+# echo -e "\nPrinting element at particular index : "
+# echo "Enter index";
+# read n;
+# echo ${colors[n]}
+
+# echo -e "\nPrinting element from a particular index : "
+# echo "Enter starting index";
+# read x;
+# echo ${colors[@]:x} 
+
+# echo -e "\nPrinting element in a range : "
+# echo "Enter starting index";
+# read a;
+# echo "Enter ending index";
+# read b;
+# echo ${colors[@]:a:b} 
+
+# echo()
+# {
+#   command ls -l
+# }
+# echo

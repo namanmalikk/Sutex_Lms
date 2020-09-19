@@ -1,9 +1,101 @@
 {% extends 'base.html' %}{% load static %} {% block content %}
-<h1>Signup</h1>
-<form method="POST" action="">
-  {% csrf_token %} {{form.as_p}}
-  <input type="submit" name="Submit" />
-</form>
-<span>{{form.errors}}</span>
+<div class="wrapper d-flex align-items-stretch">
+  <nav id="sidebar">
+    <div class="p-4 pt-5">
+      <a href="{% url 'home' %}" class="img logo rounded-circle mb-5"><img src="{% static "images/Logo.jpg" %}" style="height: 125px;width: 125px;" alt="My image"></a>
+            <ul class="list-unstyled components mb-5">
+        <li >
+          <a href="{% url 'home' %}">Back to Main Menu</a>
+        </li>
+        <li>
+          <a href="{% url 'loginUser' %}">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
+    <!-- Page Content  -->
+  <div id="content" class="p-4 p-md-5">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="btn">
+          <i class="fa fa-bars"></i>
+          <span class="sr-only">Toggle Menu</span>
+        </button>
+        </i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+
+        </div>
+      </div>
+    </nav>
+           <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Sign up</h2>
+            </div>
+            <div class="col-lg-8">
+                <form class="form-contact contact_form" action="" method="POST">
+                  {% csrf_token %}
+                    <div class="row">
+                        
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              {{form.first_name}}
+                                </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              {{form.last_name}} 
+                                    </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              {{form.username}}
+                              </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                              {{form.email}}
+                               </div>
+                        </div>
+                        <div class="col-12">
+                          <div class="form-group">
+                            {{form.password1}}
+                             </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group">
+                          {{form.password2}}
+                                </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="form-group row">
+                          
+                          <div class="col-sm-2" ><label>Account Type*</label>
+                          </div>
+                      <div class="col-sm-2" >{{form.group}}
+                      </div>
+                          
+                              </div>
+                      </div>
+                      
+                </div>
+                {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                  {{form.errors}}
+                </div>
+                {% endif %}
+                    <div class="form-group mt-3">
+                        <button type="submit" class="button button-contactForm boxed-btn">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+  </div>
+</div>
 {% endblock %}

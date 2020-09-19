@@ -11,10 +11,14 @@ urlpatterns = [
 
     path('teacher/class/<str:pk>/',
          views.teacherClassView, name='teacherClassView'),
+    path('teacher/class/<str:pk>/students/',
+         views.enrolledStudents, name='enrolledStudents'),
     path('student/class/<str:pk>/',
          views.studentClassView, name='studentClassView'),
     path('student/class/<str:pk>/<str:pk2>',
          views.detailAssignment, name='detailAssignment'),
+    path('teacher/class/<str:pk>/<str:pk2>',
+         views.submittedAnswers, name='submittedAnswers'),
 
     path('signup/', views.signupUser, name='signupUser'),
     path('login/', views.loginUser, name='loginUser'),

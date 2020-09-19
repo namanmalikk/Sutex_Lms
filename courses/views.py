@@ -13,7 +13,8 @@ def signupUser(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save()
-            groupName = str(form.cleaned_data.get('groups')[0])
+            groupName = str(form.cleaned_data.get('group'))
+            print(groupName)
             group = Group.objects.get(name=groupName)
             user.groups.add(group)
             if groupName == 'student':
@@ -120,7 +121,7 @@ def studentClassView(request, pk):
 
 
 def detailAssignment(request, pk, pk2):
-    print(pk, pk2)
+    # print(pk, pk2)
     student = request.user.student
     class_object = Class.objects.get(class_id=pk)
     assignment = class_object.assignments_set.get(id=pk2)
@@ -141,3 +142,22 @@ def detailAssignment(request, pk, pk2):
     context = {'solution': solution, 'form': form,
                'assignment': assignment, 'class': class_object}
     return render(request, 'detailAssignment.html', context)
+
+
+def enrolledStudents(request, pk):
+    # teacher = request.user.teacher
+    class_object = Class.objects.get(class_id=pk)
+    students = class_object.students.all()
+    context = {'students': students, 'class': class_object}
+    return render(request, 'enrolledStudents.html', context)
+
+
+def submittedAnswers(request, pk, pk2):
+    # print(pk, pk2)
+    class_object = Class.objects.get(class_id=pk)
+    assignment = class_object.assignments_set.get(id=pk2)
+    solutions = Solutions.objects.filter(assignment=assignment)
+    # print(solutions)
+    context = {'solutions': solutions,
+               'assignment': assignment, 'class': class_object}
+    return render(request, 'submittedAnswers.html', context)

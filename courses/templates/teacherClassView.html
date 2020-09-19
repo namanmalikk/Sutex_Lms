@@ -1,13 +1,135 @@
+
+
 {% extends 'base.html' %}{% load static %} {% block content %}
-<h1>{{class.name}}</h1>
 
-<form method="POST" action="" enctype="multipart/form-data">
-  {% csrf_token %} {{form.as_p}}
-  <input type="submit" name="Submit" />
-</form>
 
-{% for i in assignments %}
-<br />{{i.message}}<br />
-{% if i.question %}
-<a href="{{i.question.url}}">Question</a><br />
-{% endif %} {%endfor%} {% endblock %}
+
+
+<div class="wrapper d-flex align-items-stretch">
+   <nav id="sidebar">
+    <div class="p-4 pt-5">
+      <a href="{% url 'home' %}" class="img logo rounded-circle mb-5"
+        ><img src="{% static "images/Logo.jpg" %}" style="height: 125px;width:
+        125px;" alt="My image"></a
+      >
+      <ul class="list-unstyled components mb-5">
+        <li>
+          <a href="{% url 'createClass' %}">Create Class</a>
+        </li>
+        <li>
+          <a href="{% url 'enrolledStudents' class.class_id %}">View Enrolled Students</a>
+        </li>
+        <li>
+            <a href="{% url 'logoutUser' %}">Logout</a>
+          </li>
+      </ul>
+    </div>
+  </nav>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-4 p-md-5">
+
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn">
+      <i class="fa fa-bars"></i>
+      <span class="sr-only">Toggle Menu</span>
+    </button>
+                </i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'createClass' %}">Create Class</a>
+                          </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-8">
+                <div class="section-tittle text-center mb-55">
+                    <h2>{{class.name}}</h2>
+                </div>
+            </div>
+        </div>
+        <form method="POST" action="" enctype="multipart/form-data">
+          {% csrf_token %} 
+          <div class="col-12">
+            <div class="form-group row">
+              
+              <div class="col-sm-2" ><label>{{form.message.label}}</label>
+              </div>
+          <div class="col-sm-10" >{{form.message}}
+          </div>
+              
+                  </div>
+          </div>
+            <div class="col-12 mt-5">
+            <div class="form-group row">
+              
+              <div class="col-sm-2" ><label>Question</label>
+              </div>
+          <div class="col-sm-2" >{{form.question}}
+          </div>
+              
+                  </div>
+          </div>
+          <div class="form-group mt-5 d-flex justify-content-center">
+            <button type="submit" class="button button-contactForm boxed-btn">Post</button>
+        </div>
+        </form>
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-5 mb-lg-0">
+                        <div class="blog_left_sidebar">
+
+                          {% for i in assignments %}
+                          <article class="blog_item">
+                              <div class="blog_details">
+                                  
+                                  {% if i.question %}
+                                  <a class="d-inline-block" href="{% url 'submittedAnswers' class.class_id i.id %}">
+                                      <h2 class="blog-head" style="color: #2d2d2d;">{{i.message}}</h2>
+                                  </a>
+                                  <a href="{{i.question.url}}"><p>Question</p></a>
+                                  {% else %}
+                                      <h2 class="blog-head" style="color: #2d2d2d;">{{i.message}}</h2>
+                                  {% endif %}
+                              </div>
+                          </article>
+                          {%endfor%}
+                            <!-- {% for i in assignments %}
+                            <article class="blog_item">
+                                <div class="blog_details">
+                                  <h2 class="blog-head" style="color: #2d2d2d;">{{i.message}}</h2>
+                                    {% if i.question %}
+                                        <a href="{{i.question.url}}"><p>Question</p></a>
+                                    {% endif %}
+                                </div>
+                            </article>
+                            {%endfor%} -->
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+</div>
+
+
+
+{% endblock %}
